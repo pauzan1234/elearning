@@ -21,9 +21,11 @@
                     </p>
                 </div>
 
-                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition">
-                    + Tambah Pengguna
-                </a>
+                <a href="#"
+   onclick="openModal()"
+   class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition">
+    + Tambah Pengguna
+</a>
             </div>
             @php
                 $users = [
@@ -144,7 +146,75 @@
                 </table>
 
             </div>
+<!-- Modal -->
+<div id="userModal"
+     class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
 
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6">
+
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Tambah Pengguna</h2>
+
+            <button onclick="closeModal()"
+                class="text-gray-500 hover:text-red-500 text-2xl">
+                &times;
+            </button>
+        </div>
+
+        <form>
+
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Nama</label>
+                <input type="text"
+                    class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Email</label>
+                <input type="email"
+                    class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Role</label>
+                <select
+                    class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                    <option>Admin</option>
+                    <option>Dosen</option>
+                    <option>Mahasiswa</option>
+                </select>
+            </div>
+
+            <div class="flex justify-end gap-2 mt-6">
+                <button type="button"
+                    onclick="closeModal()"
+                    class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+                    Batal
+                </button>
+
+                <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                    Simpan
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script>
+function openModal() {
+    const modal = document.getElementById('userModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
+
+function closeModal() {
+    const modal = document.getElementById('userModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+}
+</script>
             <div class="mt-5">
                 {{--
                 {{ $users->links() }}
