@@ -87,7 +87,11 @@
                                     <div class="flex justify-center gap-2">
 
                                         <a href="#"
-                                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">
+                                        onclick="openEditModal(this)"
+                                        data-id="{{ $user->id }}"
+                                        data-name="{{ $user->name }}"
+                                        data-email="{{ $user->email }}"
+                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">
                                             Edit
                                         </a>
                                         {{--
@@ -182,7 +186,95 @@
 
                 </div>
             </div>
+            <!-- Modal Edit -->
+<div id="editModal"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6">
+
+        <div class="flex justify-between items-center mb-5">
+            <h2 class="text-xl font-semibold">
+                Edit Pengguna
+            </h2>
+
+            <button onclick="closeEditModal()"
+                class="text-2xl text-gray-500 hover:text-red-500">
+                &times;
+            </button>
+        </div>
+
+        <form>
+
+            <input type="hidden" id="edit_id">
+
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">
+                    Nama
+                </label>
+
+                <input
+                    type="text"
+                    id="edit_name"
+                    class="w-full border rounded-lg px-3 py-2">
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="edit_email"
+                    class="w-full border rounded-lg px-3 py-2">
+            </div>
+
+            <div class="flex justify-end gap-2 mt-5">
+
+                <button
+                    type="button"
+                    onclick="closeEditModal()"
+                    class="bg-gray-400 text-white px-4 py-2 rounded-lg">
+                    Batal
+                </button>
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                    Simpan
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
             <script>
+                    function openEditModal(button){
+
+                        document.getElementById('edit_id').value =
+                            button.dataset.id;
+
+                        document.getElementById('edit_name').value =
+                            button.dataset.name;
+
+                        document.getElementById('edit_email').value =
+                            button.dataset.email;
+
+                        document.getElementById('editModal').classList.remove('hidden');
+                        document.getElementById('editModal').classList.add('flex');
+                    }
+
+                    function closeEditModal(){
+
+                        document.getElementById('editModal').classList.remove('flex');
+                        document.getElementById('editModal').classList.add('hidden');
+
+                    }
+
+
                 function openModal() {
                     const modal = document.getElementById('userModal');
                     modal.classList.remove('hidden');
