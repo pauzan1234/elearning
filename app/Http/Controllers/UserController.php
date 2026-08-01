@@ -10,9 +10,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->get();
-
+        $users = User::latest()->get(); //digunakan untuk mengambil data dari tabel users.
+            //latest() adalah method Eloquent yang mengurutkan data berdasarkan kolom waktu terbaru.
         return view('dashboard', compact('users'));
+            //compact() adalah fungsi bawaan PHP yang membuat array dari sebuah variabel.
     }
     
     public function store(Request $request)
@@ -34,5 +35,22 @@ class UserController extends Controller
     return redirect()
         ->back()
         ->with('success', 'User berhasil ditambahkan');
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name'=>'required|string|max:255',
+        'email'=>'required|email|max:255',
+    ]);
+
+    $user=User::findOrFail($id);
+
+    $user->update([
+        'name'=>$request->name,
+        'email'=>$request->email,
+    ]);
+
+    return redirect()->route('dashboard')->with('success','Data berhasil diperbarui');
 }
 }
