@@ -86,13 +86,11 @@
 
                                     <div class="flex justify-center gap-2">
 
-                                        <a href="#"
-                                        onclick="openEditModal(this)"
-                                        data-id="{{ $user->id }}"
-                                        data-name="{{ $user->name }}"
-                                        data-email="{{ $user->email }}"
-                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">
+                                        <a href="#" onclick="openEditModal(this)" data-id="{{ $user->id }}"
+                                            data-name="{{ $user->name }}" data-email="{{ $user->email }}"
+                                            class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">
                                             Edit
+                                            {{-- data- dapat diakses melalui properti dataset --}}
                                         </a>
                                         {{--
                                         <form action="{{ route('users.destroy', $user->id) }}" method="POST"
@@ -187,92 +185,86 @@
                 </div>
             </div>
             <!-- Modal Edit -->
-<div id="editModal"
-    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+            <div id="editModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
 
-    <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6">
+                <div class="bg-white rounded-xl shadow-lg w-full max-w-lg p-6">
 
-        <div class="flex justify-between items-center mb-5">
-            <h2 class="text-xl font-semibold">
-                Edit Pengguna
-            </h2>
+                    <div class="flex justify-between items-center mb-5">
+                        <h2 class="text-xl font-semibold">
+                            Edit Pengguna
+                        </h2>
 
-            <button onclick="closeEditModal()"
-                class="text-2xl text-gray-500 hover:text-red-500">
-                &times;
-            </button>
-        </div>
+                        <button onclick="closeEditModal()" class="text-2xl text-gray-500 hover:text-red-500">
+                            &times;
+                        </button>
+                    </div>
 
-        <form>
+                    <form id="editForm" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="edit_id">
 
-            <input type="hidden" id="edit_id">
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium">
+                                Nama
+                            </label>
 
-            <div class="mb-4">
-                <label class="block mb-1 font-medium">
-                    Nama
-                </label>
+                            <input type="text" name="name" id="edit_name"
+                                class="w-full border rounded-lg px-3 py-2">
+                        </div>
 
-                <input
-                    type="text"
-                    id="edit_name"
-                    class="w-full border rounded-lg px-3 py-2">
-            </div>
+                        <div class="mb-4">
+                            <label class="block mb-1 font-medium">
+                                Email
+                            </label>
 
-            <div class="mb-4">
-                <label class="block mb-1 font-medium">
-                    Email
-                </label>
+                            <input type="email" name="email" id="edit_email"
+                                class="w-full border rounded-lg px-3 py-2">
+                        </div>
 
-                <input
-                    type="email"
-                    id="edit_email"
-                    class="w-full border rounded-lg px-3 py-2">
-            </div>
+                        <div class="flex justify-end gap-2 mt-5">
 
-            <div class="flex justify-end gap-2 mt-5">
+                            <button type="button" onclick="closeEditModal()"
+                                class="bg-gray-400 text-white px-4 py-2 rounded-lg">
+                                Batal
+                            </button>
 
-                <button
-                    type="button"
-                    onclick="closeEditModal()"
-                    class="bg-gray-400 text-white px-4 py-2 rounded-lg">
-                    Batal
-                </button>
+                            <button type="submit"
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                                Simpan
+                            </button>
 
-                <button
-                    type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-                    Simpan
-                </button>
+                        </div>
+
+                    </form>
+
+                </div>
 
             </div>
-
-        </form>
-
-    </div>
-
-</div>
             <script>
-                    function openEditModal(button){
+                function openEditModal(button) {
 
-                        document.getElementById('edit_id').value =
-                            button.dataset.id;
+                    document.getElementById('edit_id').value =
+                        button.dataset.id;
 
-                        document.getElementById('edit_name').value =
-                            button.dataset.name;
+                    document.getElementById('edit_name').value =
+                        button.dataset.name;
 
-                        document.getElementById('edit_email').value =
-                            button.dataset.email;
+                    document.getElementById('edit_email').value =
+                        button.dataset.email;
+                    // Mengubah action form
+                    document.getElementById('editForm').action =
+                        "/users/" + button.dataset.id;
+                    document.getElementById('editModal').classList.remove('hidden');
+                    document.getElementById('editModal').classList.add('flex');
+                }
 
-                        document.getElementById('editModal').classList.remove('hidden');
-                        document.getElementById('editModal').classList.add('flex');
-                    }
+                function closeEditModal() {
 
-                    function closeEditModal(){
+                    document.getElementById('editModal').classList.remove('flex');
+                    document.getElementById('editModal').classList.add('hidden');
 
-                        document.getElementById('editModal').classList.remove('flex');
-                        document.getElementById('editModal').classList.add('hidden');
-
-                    }
+                }
 
 
                 function openModal() {
