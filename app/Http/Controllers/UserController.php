@@ -53,4 +53,13 @@ public function update(Request $request, $id)
 
     return redirect()->route('dashboard')->with('success','Data berhasil diperbarui');
 }
+
+public function destroy(User $user)
+{
+    $user->delete();
+
+    return redirect()
+        ->back()
+        ->with('success', 'User berhasil dihapus.');
+}
 }

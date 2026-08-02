@@ -92,20 +92,20 @@
                                             Edit
                                             {{-- data- dapat diakses melalui properti dataset --}}
                                         </a>
-                                        {{--
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus pengguna ini?')">
 
+
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            class="delete-form inline">
                                             @csrf
                                             @method('DELETE')
 
-                                            <button
-                                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
-                                                Hapus
+                                            <button type="submit"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                                                Delete
                                             </button>
-
                                         </form>
---}}
+
+
                                     </div>
 
                                 </td>
@@ -278,6 +278,58 @@
                     modal.classList.remove('flex');
                     modal.classList.add('hidden');
                 }
+
+                function deleteUser(id) {
+
+
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: 'Data pengguna akan dihapus (simulasi frontend).',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#dc2626',
+                        cancelButtonColor: '#6b7280',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const row = document.getElementById(`user-row-${id}`);
+
+                            if (row) {
+                                row.remove();
+                            }
+
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: 'Data berhasil dihapus (simulasi frontend).',
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                        }
+                    });
+                }
+
+                document.querySelectorAll('.delete-form').forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+
+                        Swal.fire({
+                            title: 'Hapus User?',
+                            text: 'Data yang dihapus tidak dapat dikembalikan.',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ef4444',
+                            cancelButtonColor: '#6b7280',
+                            confirmButtonText: 'Ya, Hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
+                });
             </script>
             <div class="mt-5">
                 {{--
