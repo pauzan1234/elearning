@@ -92,13 +92,19 @@
                                             Edit
                                             {{-- data- dapat diakses melalui properti dataset --}}
                                         </a>
-                                        
-                                
-                                        <a href="#" onclick="deleteUser({{ $user['id'] }})" 
-                                        class="bg-red-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg text-sm">
-                                        Delete
-                                        </a>
-                               
+
+
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST"
+                                            class="delete-form inline">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                                                Delete
+                                            </button>
+                                        </form>
+
 
                                     </div>
 
@@ -273,8 +279,8 @@
                     modal.classList.add('hidden');
                 }
 
-                function deleteUser( id) {
-                    
+                function deleteUser(id) {
+
 
                     Swal.fire({
                         title: 'Yakin ingin menghapus?',
@@ -302,8 +308,28 @@
                             });
                         }
                     });
-}
+                }
 
+                document.querySelectorAll('.delete-form').forEach(form => {
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+
+                        Swal.fire({
+                            title: 'Hapus User?',
+                            text: 'Data yang dihapus tidak dapat dikembalikan.',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#ef4444',
+                            cancelButtonColor: '#6b7280',
+                            confirmButtonText: 'Ya, Hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
+                });
             </script>
             <div class="mt-5">
                 {{--
